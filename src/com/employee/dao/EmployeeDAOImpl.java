@@ -110,4 +110,95 @@ public class EmployeeDAOImpl implements EmployeeDAO {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public Employee getEmployeeByName(String name) {
+        String query = "SELECT * FROM employees WHERE name = ?";
+        try(Connection conn = DBConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setString(1,name);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                return new Employee(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getString("department"),
+                        rs.getDouble("salary"),
+                        rs.getString("email"));
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
+    @Override
+    public List<Employee> getEmployeesByDepartment(String department) {
+        List<Employee> newEmployees1 = new ArrayList<>();
+        String query = "SELECT * FROM employees WHERE department=?";
+        try(Connection conn = DBConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement(query)){
+            ps.setString(1,department);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                newEmployees1.add(new Employee(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getString("department"),
+                        rs.getDouble("salary"),
+                        rs.getString("email")));
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return newEmployees1;
+    }
+
+    @Override
+    public List<Employee> getEmployeesBySalary(Double salary) {
+        List<Employee> newEmployees2 = new ArrayList<>();
+        String query = "SELECT * FROM employees WHERE salary =?";
+        try(Connection conn = DBConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement(query)){
+            ps.setDouble(1,salary);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                newEmployees2.add(new Employee(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getString("department"),
+                        rs.getDouble("salary"),
+                        rs.getString("email")));
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return newEmployees2;
+    }
+
+    @Override
+    public Employee getEmployeeByEmail(String email) {
+        String query = "SELECT * FROM employees WHERE email = ?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(query)){
+            ps.setString(1,email);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                return new Employee(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getString("department"),
+                        rs.getDouble("salary"),
+                        rs.getString("email"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
 }

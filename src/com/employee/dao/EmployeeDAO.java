@@ -10,4 +10,8 @@ public interface EmployeeDAO {
     List<Employee> getAllEmployees();
     void updateEmployee(Employee emp);
     boolean deleteEmployee(int id);
+    Employee getEmployeeByName(String name);
+    List<Employee> getEmployeesByDepartment(String department);
+    List<Employee> getEmployeesBySalary(Double salary);
+    Employee getEmployeeByEmail(String email);
 }
